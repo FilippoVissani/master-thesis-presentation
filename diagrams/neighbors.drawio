@@ -1,0 +1,37 @@
+<mxfile host="Electron" modified="2024-03-12T10:12:05.573Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.0.3 Chrome/118.0.5993.159 Electron/27.3.2 Safari/537.36" etag="vcBlaA7O7ymznUhtKt7M" version="22.0.3" type="device">
+  <diagram name="Page-1" id="wOeO3cUnQPQfx3-XggEp">
+    <mxGraphModel dx="989" dy="586" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ELAeSi0steQ9deMOiPDI-4" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.devices.cell_phone_generic;" vertex="1" parent="1">
+          <mxGeometry x="135" y="130" width="26" height="47" as="geometry" />
+        </mxCell>
+        <mxCell id="ELAeSi0steQ9deMOiPDI-8" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;strokeColor=#FF0000;" edge="1" parent="1" source="ELAeSi0steQ9deMOiPDI-5" target="ELAeSi0steQ9deMOiPDI-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ELAeSi0steQ9deMOiPDI-5" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.devices.cell_phone_generic;" vertex="1" parent="1">
+          <mxGeometry x="325" y="130" width="26" height="47" as="geometry" />
+        </mxCell>
+        <mxCell id="ELAeSi0steQ9deMOiPDI-7" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;startArrow=classic;startFill=1;strokeColor=#FF0000;" edge="1" parent="1" source="ELAeSi0steQ9deMOiPDI-6" target="ELAeSi0steQ9deMOiPDI-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ELAeSi0steQ9deMOiPDI-9" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;strokeColor=#FF0000;" edge="1" parent="1" source="ELAeSi0steQ9deMOiPDI-6" target="ELAeSi0steQ9deMOiPDI-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ELAeSi0steQ9deMOiPDI-6" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.devices.cell_phone_generic;" vertex="1" parent="1">
+          <mxGeometry x="230" y="230" width="26" height="47" as="geometry" />
+        </mxCell>
+        <mxCell id="ELAeSi0steQ9deMOiPDI-16" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;strokeColor=#FF0000;" edge="1" parent="1" source="ELAeSi0steQ9deMOiPDI-15" target="ELAeSi0steQ9deMOiPDI-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ELAeSi0steQ9deMOiPDI-17" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;strokeColor=#FF0000;" edge="1" parent="1" source="ELAeSi0steQ9deMOiPDI-15" target="ELAeSi0steQ9deMOiPDI-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ELAeSi0steQ9deMOiPDI-15" value="" style="sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.office.devices.cell_phone_generic;" vertex="1" parent="1">
+          <mxGeometry x="230" y="30" width="26" height="47" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,12 @@
+@startuml
+start
+while (round)
+:sense;
+note left: Build local context
+:eval;
+note left: Produce export
+:broadcast;
+note left: Broadcast export
+endwhile
+stop
+@enduml
