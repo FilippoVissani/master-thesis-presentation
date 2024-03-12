@@ -3,7 +3,7 @@ theme: seriph
 title: 'Feasibility of Reactive Aggregate Programming via Kotlin Flows'
 class: 'text-center'
 highlighter: shiki
-background: none
+background: /background.jpg
 drawings:
   persist: false
 transition: 'slide-left'
@@ -14,7 +14,9 @@ author: Filippo Vissani
 
 # Feasibility of Reactive Aggregate Programming via Kotlin Flows
 
-Filippo Vissani
+<p></p>
+
+Presented by Filippo Vissani
 
 ---
 layout: center
@@ -29,8 +31,18 @@ layout: center
 </style>
 
 <div class="flex-container">
-    <img src="/proactive-model.svg" class="m-10 h-90" />
-    <img src="/neighbors.svg" class="m-10 h-90" />
+    <div class="m-5">
+        <center>
+            <img src="/proactive-model.svg" />
+            The behavior of the proactive (round-based) model
+        </center>
+    </div>
+    <div class="m-5">
+        <center>
+            <img src="/neighbors.svg" />
+            Devices distributed over the network that run the aggregate program
+        </center>
+    </div>
 </div>
 
 ---
@@ -45,27 +57,87 @@ layout: center
 </style>
 
 <div class="flex-container">
-    <img src="/gradient-dependencies.svg" class="m-5 h-80" />
-    <div>
-        <img src="/gradient-dependencies-distributed.svg" class="m-5 h-50" />
-        <img src="/gradient-dependencies-devices.svg" class="m-5 h-20" />
+    <div class="m-5">
+        <center>
+            <img src="/gradient-dependencies.svg" />
+            The reactive dataflow graph corresponding to the self-healing gradient
+        </center>
+    </div>
+    <div class="m-5">
+        <center>
+            <img src="/gradient-dependencies-distributed.svg" />
+            <img src="/gradient-dependencies-devices.svg" />
+            Distributed dependency graph
+        </center>
     </div>
 </div>
 
 ---
 ---
 
-# Goal
+# Goals
+
+<center>
+Scala -> Kotlin
+
+Sodium -> Flow
+
+FRASP -> Collektive
+</center>
 
 ---
 ---
 
 # Purely Reactive Model
 
+<style>
+.flex-container {
+  display: flex;
+}
+</style>
+
+<div class="flex-container">
+    <div class="m-5">
+        <ul>
+            <li>Computation occurs reactively in response to environmental changes.</li>
+            <li>Devices only broadcast messages when necessary.</li>
+            <li>Sub-expressions are reevaluated only when their dependencies change.</li>
+            <li>Do not retain compatibility with the original Collektive DSL.</li>
+        </ul>
+    </div>
+    <div class="m-5">
+        <center>
+            <img src="/prm.svg" />
+        </center>
+    </div>
+</div>
+
 ---
 ---
 
 # Model with Reactive Messages and Sensors
+
+<style>
+.flex-container {
+  display: flex;
+}
+</style>
+
+<div class="flex-container">
+    <div class="m-5">
+        <ul>
+            <li>Computation occurs reactively in response to environmental changes.</li>
+            <li>Devices only broadcast messages when necessary.</li>
+            <li>The entire aggregate expression undergoes reevaluation upon receiving a message.</li>
+            <li>Retains compatibility with the original Collektive DSL.</li>
+        </ul>
+    </div>
+    <div class="m-5">
+        <center>
+            <img src="/rmsm.svg" />
+        </center>
+    </div>
+</div>
 
 ---
 layout: center
@@ -120,3 +192,7 @@ fun Aggregate<Int>.gradientWithObstacles(nodeTypeFlow: StateFlow<NodeType>): Sta
         { gradient(nodeTypeFlow.mapStates { it == NodeType.SOURCE }) },
     )
 ```
+
+---
+layout: end
+---
