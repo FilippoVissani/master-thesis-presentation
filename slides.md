@@ -3,7 +3,7 @@ theme: seriph
 title: 'Feasibility of Reactive Aggregate Programming via Kotlin Flows'
 class: 'text-center'
 highlighter: shiki
-background: /background.jpg
+background: /background.svg
 drawings:
   persist: false
 transition: 'slide-left'
@@ -14,15 +14,64 @@ author: Filippo Vissani
 
 # Feasibility of Reactive Aggregate Programming via Kotlin Flows
 
-<p></p>
+<style>
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  font-style: italic;
+}
+.left-col {
+    text-align: start;
+}
+.right-col {
+    text-align: end;
+    margin-left: auto;
+}
+</style>
 
-Presented by Filippo Vissani
+<div class="flex-container">
+    <div class="m-5 left-col">
+        Supervisor: Prof. Danilo Pianini
+        <br />
+        Co-supervisor: Dr. Gianluca Aguzzi
+    </div>
+    <div class="m-5 right-col">
+        Candidate: Filippo Vissani
+    </div>
+</div>
+
+
+---
+---
+
+# Introduction
+
+<style>
+.flex-container {
+  display: flex;
+}
+</style>
+
+<div class="flex-container">
+    <div class="m-5">
+        <ul>
+            <li>Self-organizing systems & macro-programming</li>
+            <li>Proactive & reactive models in aggregate programming</li>
+            <li>Reactive aggregate programming in Kotlin</li>
+        </ul>
+    </div>
+    <div class="m-5">
+        <center>
+            <img src="/iot.png" />
+        </center>
+    </div>
+</div>
 
 ---
 layout: center
 ---
 
-# Context & Motivations (1/2)
+# Background: proactive model in aggregate computing
 
 <style>
 .flex-container {
@@ -48,7 +97,7 @@ layout: center
 ---
 ---
 
-# Context & Motivations  (2/2)
+# Background: reactive model in aggregate computing
 
 <style>
 .flex-container {
@@ -75,15 +124,32 @@ layout: center
 ---
 ---
 
-# Goals
+# Goal
 
-<center>
-Scala -> Kotlin
+<p></p>
 
-Sodium -> Flow
+Demonstrate the feasibility of reactive aggregate programming in Kotlin:
 
-FRASP -> Collektive
-</center>
+<style>
+.flex-container {
+  display: flex;
+}
+</style>
+
+<div class="flex-container">
+    <div class="m-5">
+        <ul>
+            <li>Using the Kotlin Flow reactive library</li>
+            <li>Taking inspiration from the FRASP model developed in Scala</li>
+            <li>By implementing the solution directly into the Collektive framework</li>
+        </ul>
+    </div>
+    <div class="m-5">
+        <center>
+            <img src="/collektive.png" />
+        </center>
+    </div>
+</div>
 
 ---
 ---
@@ -99,10 +165,10 @@ FRASP -> Collektive
 <div class="flex-container">
     <div class="m-5">
         <ul>
-            <li>Computation occurs reactively in response to environmental changes.</li>
-            <li>Devices only broadcast messages when necessary.</li>
-            <li>Sub-expressions are reevaluated only when their dependencies change.</li>
-            <li>Do not retain compatibility with the original Collektive DSL.</li>
+            <li>Computation occurs reactively in response to environmental changes</li>
+            <li>Devices only broadcast messages when necessary</li>
+            <li>Sub-expressions are reevaluated only when their dependencies change</li>
+            <li>Do not retain compatibility with the original Collektive DSL</li>
         </ul>
     </div>
     <div class="m-5">
@@ -126,10 +192,10 @@ FRASP -> Collektive
 <div class="flex-container">
     <div class="m-5">
         <ul>
-            <li>Computation occurs reactively in response to environmental changes.</li>
-            <li>Devices only broadcast messages when necessary.</li>
-            <li>The entire aggregate expression undergoes reevaluation upon receiving a message.</li>
-            <li>Retains compatibility with the original Collektive DSL.</li>
+            <li>Computation occurs reactively in response to environmental changes</li>
+            <li>Devices only broadcast messages when necessary</li>
+            <li>The entire aggregate expression undergoes reevaluation upon receiving a message</li>
+            <li>Retains compatibility with the original Collektive DSL</li>
         </ul>
     </div>
     <div class="m-5">
@@ -143,16 +209,16 @@ FRASP -> Collektive
 layout: center
 ---
 
-# Validation (1/3)
+# Validation: gradient with obstacles
 
 <img src="/gradient-environment.png" class="m-10 h-100" />
 
 ---
 ---
 
-# Validation (2/3)
+# Validation: RMSM
 
-```kt {all|1-7|9-14}
+```kt {all|1-7|9-13|all}
 fun Aggregate<Int>.gradient(source: Boolean): Double =
     share(Double.POSITIVE_INFINITY) { field ->
         when {
@@ -162,10 +228,9 @@ fun Aggregate<Int>.gradient(source: Boolean): Double =
     }
 
 fun Aggregate<Int>.gradientWithObstacles(nodeType: NodeType): Double =
-    if (nodeType == NodeType.OBSTACLE) {
-        -1.0
-    } else {
-        gradient(nodeType == NodeType.SOURCE)
+    when {
+        nodeType == NodeType.OBSTACLE -> -1.0
+        else -> gradient(nodeType == NodeType.SOURCE)
     }
     
 ```
@@ -173,9 +238,9 @@ fun Aggregate<Int>.gradientWithObstacles(nodeType: NodeType): Double =
 ---
 ---
 
-# Validation (3/3)
+# Validation: PRM
 
-```kt {all|1-8|10-15}
+```kt {all|1-8|10-15|all}
 fun Aggregate<Int>.gradient(sourceFlow: StateFlow<Boolean>): StateFlow<Double> =
     rShare(Double.POSITIVE_INFINITY) { fieldFlow ->
         rMux(
@@ -192,6 +257,11 @@ fun Aggregate<Int>.gradientWithObstacles(nodeTypeFlow: StateFlow<NodeType>): Sta
         { gradient(nodeTypeFlow.mapStates { it == NodeType.SOURCE }) },
     )
 ```
+
+---
+---
+
+# Conclusion
 
 ---
 layout: end
