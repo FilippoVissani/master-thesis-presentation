@@ -40,8 +40,10 @@ author: Filippo Vissani
     </div>
 </div>
 
+<!--
+Buongiorno, sono Filippo Vissani e la mia tesi tratta la fattibilità della programmazione aggregata reattiva in Kotlin.
+-->
 
----
 ---
 
 # Introduction
@@ -55,7 +57,7 @@ author: Filippo Vissani
 <div class="flex-container">
     <div class="m-5">
         <ul>
-            <li>Self-organizing systems & macro-programming</li>
+            <li>Aggregate computing & self-organizing systems</li>
             <li>Proactive & reactive models in aggregate programming</li>
             <li>Reactive aggregate programming in Kotlin</li>
         </ul>
@@ -66,6 +68,17 @@ author: Filippo Vissani
         </center>
     </div>
 </div>
+
+<!--
+L'aggregate computing è un metodo per coordinare sistemi distribuiti complessi. Questo approccio permette di concentrarsi sul macro-comportamento dell'intero sistema anziché sulle relazioni tra i dispositivi, i loro pari e l'ambiente in cui si trovano. L'aggregate computing è particolarmente adatto per scenari in cui il sistema distribuito:
+-  È aperto, ovvero può cambiare o subire guasti imprevisti.
+- Coinvolge un vasto numero di dispositivi che necessitano di astrazioni per il coordinamento.
+- Deve avere la capacità di rispondere a eventi significativi per garantire la resilienza.
+
+La maggior parte linguaggi per la programmazione aggregata utilizza un modello di esecuzione basato su round, in cui i dispositivi valutano ripetutamente il loro programma in modo ciclico o periodico. Questo approccio è semplice, ma manca di flessibilità per quanto riguarda la risposta ai cambiamenti dell'ambiente. Recentemente è stato proposto un nuovo modello, chiamato FRASP, implementato in Scala, che risolve questo problema facendo uso del paradigma reattivo.
+
+L'obiettivo della tesi è quello di dimostrare la fattibilità della programmazione aggregata reattiva in Kotlin prendendo ispirazione da FRASP.
+-->
 
 ---
 layout: center
@@ -93,6 +106,16 @@ layout: center
         </center>
     </div>
 </div>
+
+<!--
+Partiamo presentando le differenze tra il modello proattivo e quello reattivo:
+
+Nel modello proattivo i dispositivi eseguono ciclicamente i round, dove per ogni round valutano l'espressione aggregata considerando il contesto relativo a quel round. Ogni round è suddiviso in tre fasi:
+
+- Inizialmente viene definito il contesto locale sulla base dei messaggi dei vicini e sullo stato dei sensori
+- L'espressione aggregata viene valutata considerando il contesto locale e viene generato un export come risultato
+- L'export viene mandato in broadcast a tutti i vicini, che lo useranno per i loro round futuri
+-->
 
 ---
 ---
