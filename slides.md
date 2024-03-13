@@ -112,12 +112,17 @@ Partiamo presentando le differenze tra il modello proattivo e quello reattivo:
 
 Nel modello proattivo i dispositivi eseguono ciclicamente i round, dove per ogni round valutano l'espressione aggregata considerando il contesto relativo a quel round. Ogni round è suddiviso in tre fasi:
 
-- Inizialmente viene definito il contesto locale sulla base dei messaggi dei vicini e sullo stato dei sensori
-- L'espressione aggregata viene valutata considerando il contesto locale e viene generato un export come risultato
-- L'export viene mandato in broadcast a tutti i vicini, che lo useranno per i loro round futuri
+- Inizialmente viene definito il contesto locale sulla base dei messaggi dei vicini e sullo stato dei sensori.
+- L'espressione aggregata viene valutata considerando il contesto locale e viene generato un export come risultato.
+- L'export viene mandato in broadcast a tutti i vicini, che lo useranno per i loro round futuri.
+
+In questo modello:
+- La computazione avviene indipendente dal fatto che ci siano cambiamneti nell'ambiente.
+- Non è possibile reagire ai cambiamenti dell'ambiente direttamente.
+- L'intera espressione aggregata viene rivalutata interamente ad ogni round.
+- Gli export vengono mandati anche nel caso in cui non ci siano cambiamenti.
 -->
 
----
 ---
 
 # Background: Reactive Model in Aggregate Computing
@@ -144,7 +149,12 @@ Nel modello proattivo i dispositivi eseguono ciclicamente i round, dove per ogni
     </div>
 </div>
 
----
+<!--
+Il modello reattivo fornisce lo stato dei sensori e le informazioni dei vicini in maniera reattiva. Inoltre, questo modello consente di esprimere l'espressione aggregata come un grafo di sotto-espressioni, dove ogni sotto-espressione ritorna un valore reattivo.
+
+Qui ad esempio vediamo lo schema di dipendenze dell'espressione aggregata relativa al gradiente. Nel momento in cui lo stato di un sensore cambia o viene ricevuto un messaggio da un vicino, viene rivalutata solo la parte di sotto-espressione interessata.
+-->
+
 ---
 
 # Goal
@@ -174,7 +184,15 @@ Demonstrate the feasibility of reactive aggregate programming in Kotlin:
     </div>
 </div>
 
----
+<!--
+L'obiettivo della tesi è dimostrare la fattiblità della programmazione aggregata reattiva in Kotlin:
+- Utilizzando la libreria reattiva Flow.
+- Prendendo ispirazione da FRASP, implementato in Scala usando Sodium come libreria reattiva.
+- Implementando la soluzione nel framework Collektive, che al momento implementa solo il modello proattivo.
+
+Dopo una prima fase di analisi, sono state individuate due possibili soluzioni per integrare il paradigma reattivo in Collektive: un modello puramente reattivo e un modello in cui sono reattivi solo i sensori e i messaggi dei dispositivi.
+-->
+
 ---
 
 # Purely Reactive Model
@@ -201,7 +219,15 @@ Demonstrate the feasibility of reactive aggregate programming in Kotlin:
     </div>
 </div>
 
----
+<!--
+Il modello puramente reattivo rispetta la base teorica fornita da FRASP:
+
+- I sensori e i messaggi vengono modellati come reattivi.
+- Vengono gestite le dipendenze delle sotto-espressioni in maniera reattiva, questo implica che i costrutti aggregati sono vincolati al tipo Flow.
+- Non viene mantenuta la compatibilità con il DSL attuale, dato che la signature dei costrutti viene modificata.
+- L'introduzione dei flow direttamente nei costrutti aggregati comporta un calo dell'ergonomia rispetto al DSL originale, nella parte delle validazioni verrà fatta un'analisi più approfondita su questo aspetto.
+-->
+
 ---
 
 # Model with Reactive Messages and Sensors
@@ -228,6 +254,10 @@ Demonstrate the feasibility of reactive aggregate programming in Kotlin:
     </div>
 </div>
 
+<!--
+Il secondo modello proposto si limita ad introdurre il paradigma reattivo nei messaggi e nei sensori. Non vengono quindi gestite le dipendenze delle sotto-espressioni. Quindi, al variare dello stato dei sensori e dei messaggi l'intera espressione aggregata viene rivalutata. Questo modello mantiene la compatibilità con il DSL attuale, dato che non vincola i costrutti aggregati al tipo Flow.
+-->
+
 ---
 layout: center
 ---
@@ -235,6 +265,16 @@ layout: center
 # Validation: Gradient with Obstacles
 
 <img src="/gradient-environment.png" class="m-10 h-100" />
+
+<!--
+In fase di validazione viene fatta un'analisi sull'ergonomia dei DSL relativi ai modelli proposti. Il programma aggregato scelto per effettuare questa valutazione è il gradiente con ostacoli.
+Il self-healing gradient è un comportamento distribuito che si auto-stabilizza, in ciascun dispositivo del sistema distribuito, ad un valore che denota la sua distanza minima dal nodo sorgente più vicino, calcolato sommando le distanze da vicino a vicino lungo il percorso più breve verso la sorgente, adattandosi ai cambiamenti dell’insieme della sorgente e delle distanze.
+In questa slide viene presentato l'ambiente in cui il gradiente viene eseguito:
+- I dispositivi sono posizionati in una griglia di 5 righe e 5 colonne.
+- Ogni dispositivo ha come vicini quelli che trova per primi sull'asse orizzontale e verticale.
+- Il dispositivo con ID 0 è la sorgente.
+- I dispositivi con ID 2, 7 e 12 vengono considerati come ostacoli.
+-->
 
 ---
 ---
