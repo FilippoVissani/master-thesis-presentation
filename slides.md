@@ -71,7 +71,7 @@ author: Filippo Vissani
 layout: center
 ---
 
-# Background: proactive model in aggregate computing
+# Background: Proactive Model in Aggregate Computing
 
 <style>
 .flex-container {
@@ -97,7 +97,7 @@ layout: center
 ---
 ---
 
-# Background: reactive model in aggregate computing
+# Background: Reactive Model in Aggregate Computing
 
 <style>
 .flex-container {
@@ -209,7 +209,7 @@ Demonstrate the feasibility of reactive aggregate programming in Kotlin:
 layout: center
 ---
 
-# Validation: gradient with obstacles
+# Validation: Gradient with Obstacles
 
 <img src="/gradient-environment.png" class="m-10 h-100" />
 
@@ -261,7 +261,11 @@ fun Aggregate<Int>.gradientWithObstacles(nodeTypeFlow: StateFlow<NodeType>): Sta
 ---
 ---
 
-# Conclusion
+# Conclusion & Future Work
+
+- Improve the ergonomics of the DSL of the purely reactive model
+- Introduce throttling to regulate inbound and outbound reactivity
+- Investigate ways to support deployment and execution on real-world distributed platforms
 
 ---
 layout: end
