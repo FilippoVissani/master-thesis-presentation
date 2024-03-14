@@ -281,7 +281,7 @@ In questa slide viene presentato l'ambiente in cui il gradiente viene eseguito:
 
 # Validation: RMSM
 
-```kt {all|1-7|9-13|all}
+```kt {all|9-13|1-7|all}
 fun Aggregate<Int>.gradient(source: Boolean): Double =
     share(Double.POSITIVE_INFINITY) { field ->
         when {
@@ -303,7 +303,7 @@ fun Aggregate<Int>.gradientWithObstacles(nodeType: NodeType): Double =
 
 # Validation: PRM
 
-```kt {all|1-8|10-15|all}
+```kt {all|10-15|1-8|all}
 fun Aggregate<Int>.gradient(sourceFlow: StateFlow<Boolean>): StateFlow<Double> =
     rShare(Double.POSITIVE_INFINITY) { fieldFlow ->
         rMux(
