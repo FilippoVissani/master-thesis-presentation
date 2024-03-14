@@ -108,7 +108,7 @@ layout: center
 </div>
 
 <!--
-Partiamo presentando le differenze tra il modello proattivo e quello reattivo:
+Partiamo presentando le differenze tra il modello proattivo e quello reattivo nel contesto della programmazione aggregata:
 
 Nel modello proattivo i dispositivi eseguono ciclicamente i round, dove per ogni round valutano l'espressione aggregata considerando il contesto relativo a quel round. Ogni round è suddiviso in tre fasi:
 
@@ -188,7 +188,7 @@ Demonstrate the feasibility of reactive aggregate programming in Kotlin:
 L'obiettivo della tesi è dimostrare la fattiblità della programmazione aggregata reattiva in Kotlin:
 - Utilizzando la libreria reattiva Flow.
 - Prendendo ispirazione da FRASP, implementato in Scala usando Sodium come libreria reattiva.
-- Implementando la soluzione nel framework Collektive, che al momento implementa solo il modello proattivo.
+- Implementando la soluzione nel framework Collektive, che al momento fa uso del modello proattivo.
 
 Dopo una prima fase di analisi, sono state individuate due possibili soluzioni per integrare il paradigma reattivo in Collektive: un modello puramente reattivo e un modello in cui sono reattivi solo i sensori e i messaggi dei dispositivi.
 -->
@@ -255,7 +255,7 @@ Il modello puramente reattivo rispetta la base teorica fornita da FRASP:
 </div>
 
 <!--
-Il secondo modello proposto si limita ad introdurre il paradigma reattivo nei messaggi e nei sensori. Non vengono quindi gestite le dipendenze delle sotto-espressioni. Quindi, al variare dello stato dei sensori e dei messaggi l'intera espressione aggregata viene rivalutata. Questo modello mantiene la compatibilità con il DSL attuale, dato che non vincola i costrutti aggregati al tipo Flow.
+Il secondo modello proposto si limita ad introdurre il paradigma reattivo nei messaggi e nei sensori. In questo modello non vengono gestite le dipendenze delle sotto-espressioni. Quindi, al variare dello stato dei sensori e dei messaggi l'intera espressione aggregata viene rivalutata. Questo modello mantiene la compatibilità con il DSL attuale, dato che non vincola i costrutti aggregati al tipo Flow.
 -->
 
 ---
@@ -268,7 +268,7 @@ layout: center
 
 <!--
 In fase di validazione viene fatta un'analisi sull'ergonomia dei DSL relativi ai modelli proposti. Il programma aggregato scelto per effettuare questa valutazione è il gradiente con ostacoli.
-Il self-healing gradient è un comportamento distribuito che si auto-stabilizza, in ciascun dispositivo del sistema distribuito, ad un valore che denota la sua distanza minima dal nodo sorgente più vicino, calcolato sommando le distanze da vicino a vicino lungo il percorso più breve verso la sorgente, adattandosi ai cambiamenti dell’insieme della sorgente e delle distanze.
+Il gradiente è un comportamento distribuito che si auto-stabilizza, in ciascun dispositivo del sistema distribuito, ad un valore che denota la sua distanza minima dal nodo sorgente più vicino, calcolato sommando le distanze da vicino a vicino lungo il percorso più breve verso la sorgente, adattandosi ai cambiamenti dell’insieme della sorgente e delle distanze.
 In questa slide viene presentato l'ambiente in cui il gradiente viene eseguito:
 - I dispositivi sono posizionati in una griglia di 5 righe e 5 colonne.
 - Ogni dispositivo ha come vicini quelli che trova per primi sull'asse orizzontale e verticale.
@@ -276,7 +276,6 @@ In questa slide viene presentato l'ambiente in cui il gradiente viene eseguito:
 - I dispositivi con ID 2, 7 e 12 vengono considerati come ostacoli.
 -->
 
----
 ---
 
 # Validation: RMSM
@@ -298,12 +297,21 @@ fun Aggregate<Int>.gradientWithObstacles(nodeType: NodeType): Double =
     
 ```
 
----
+<!--
+Come detto precedentemente, il modello con messaggi e sensori reattivi non altera il DSL originale, quindi il programma aggregato che vediamo i questa slide è valido anche per il caso proattivo.
+
+Il programma è suddiviso in due funzioni, quella evidenziata esegue una partizione di dominio per separare gli ostacoli, che ritorneranno il valore -1.0, dai nodi che eseguiranno effettivamente il gradiente.
+
+Una caratteristica interessante di Collektive è utilizza i costrutti condizionali di kotlin per eseguire il branching e questo modello reattivo non altera questa caratteristica.
+
+L'esecuzione del gradiente utilizza il costrutto share per la generazione dei field. All'interno di share viene utilizzato ancora una volta il costrutto when per distinguere la sorgente, che ritornerà 0.0, dal resto dei dispositivi.
+-->
+
 ---
 
 # Validation: PRM
 
-```kt {all|10-15|1-8|all}
+```kt
 fun Aggregate<Int>.gradient(sourceFlow: StateFlow<Boolean>): StateFlow<Double> =
     rShare(Double.POSITIVE_INFINITY) { fieldFlow ->
         rMux(
@@ -321,14 +329,27 @@ fun Aggregate<Int>.gradientWithObstacles(nodeTypeFlow: StateFlow<NodeType>): Sta
     )
 ```
 
----
+<!--
+Qui vediamo l'implementazione del gradiente con ostacoli nel modello puramente reattivo. Nonostante il programma aggregato risulti simile, viene introdotta una certa complessità a causa dell'utilizzo dei flow direttamente all'interno dei costrutti aggregati.
+In questo modello, al posto dei costrutti condizionali di Kotlin, vengono introdotte versioni di branch e mux adatte a reagire ai cambiamenti delle condizioni che prendono in input.
+I tipo di ritorno delle espressioni è vincolato a StateFlow, quindi i valori di ritorno, come quello a riga 13, devono essere wrappati in flow.
+Un altro aspetto che introduce complessità è il fatto che, per utilizzare i valori all'interno delle espressioni, bisognia per forza impiegare le funzioni per gestire i flow, come mapStates.
+-->
+
 ---
 
 # Conclusion & Future Work
 
 - Improve the ergonomics of the DSL of the purely reactive model
 - Introduce throttling to regulate inbound and outbound reactivity
-- Investigate ways to support deployment and execution on real-world distributed platforms
+
+<!--
+In conclusione, tramite l'introduzione di questi due modelli, possiamo dire che è possibile creare programmi aggregati reattivi in Kotlin.
+
+Per quanto riguarda gli sviluppi futuri, alcuni miglioramenti che si possono introdurre sono:
+- Migliorare l'ergonomia del DSL proposto nel modello puramente reattivo
+- Introdurre il throttling per regolare il livello di reattività, ad esempio rivalutando l'espressione aggregata solo dopo un certo numero di messaggi ricevuti.
+-->
 
 ---
 layout: end
